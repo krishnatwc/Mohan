@@ -46,9 +46,8 @@ var mainView = MohanApp.addView('.view-main', {
 
 
 var RequestURL ='https://www.adivaha.com/demo/MobAppRequest';
-var TPHotelUrl ='https://hotel.thavel.com//hotels';
-var TPFlightUrl ='https://flight.thavel.com//flights';
-var marker='145036';
+var HotelUrl ='http://hotels.staygo.com/hotels';
+var FlightUrl ='http://flights.staygo.com/flights';
 
 MohanApp.onPageInit('index', function (page) {
 $$('.pageFlashLoaderKK').show();	
@@ -70,12 +69,17 @@ enrDate.setDate(enrDate.getDate() + 2);
 var checkIn = strDate.getFullYear()+"-"+ (strDate.getMonth()+1) + "-" + strDate.getDate();
 var checkOut = enrDate.getFullYear()+"-"+ (enrDate.getMonth()+1) + "-" + enrDate.getDate();
 
+var checkInWego = strDate.getDate()+"-"+ (strDate.getMonth()+1) + "-" + strDate.getFullYear();
+var checkOutWego =enrDate.getDate()+"-"+ (enrDate.getMonth()+1) + "-" + enrDate.getFullYear();
+
 
 var startDate_txt = weekday[strDate.getDay()]+', '+strDate.getDate()+' '+monthNames[(strDate.getMonth()+1)]+' '+strDate.getFullYear().toString().substr(-2);
 var endDate_txt = weekday[enrDate.getDay()]+', '+enrDate.getDate()+' '+monthNames[(enrDate.getMonth()+1)]+' '+enrDate.getFullYear().toString().substr(-2);
 
 
-var htmlHotel ='<div class="history-home-page-main-left"><img src="img/hotels1.jpeg"></div><a href="'+TPHotelUrl+'?marker='+marker+'&destination=Dubai,United Arab Emirates&checkIn='+checkIn+'&checkOut='+checkOut+'&adults=2&children=&language=en&currency=USD&&cityId=25495" class="link external"><div class="history-home-page-main-right"><div class="history-home-text">Dubai - United Arab Emirates</div><div class="history-home-text1">'+startDate_txt+' - '+endDate_txt+'</div><div class="history-home-text2"><i class="fa fa-user"></i> 2 Guests </div><div class="history-home-text3"><i class="fa fa-bed"></i>1 Room </div></a></div>';
+var htmlHotel ='<div class="history-home-page-main-left"><img src="img/hotels1.jpeg"></div><a href="'+HotelUrl+'?search[query]=New%20Delhi&search[check_in]='+checkInWego+'&search[check_out]='+checkOutWego+'&search[guests]=2&search[rooms]=1&search[location_id]=1768&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5" class="link external"><div class="history-home-page-main-right"><div class="history-home-text">New Delhi, India</div><div class="history-home-text1">'+startDate_txt+' - '+endDate_txt+'</div><div class="history-home-text2"><i class="fa fa-user"></i> 2 Guests </div><div class="history-home-text3"><i class="fa fa-bed"></i>1 Room </div></a></div>';
+
+
 $$('#storeHotelLists').html(htmlHotel);
 
 var htmlFlight ='<div class="history-home-page-main-left">'+
@@ -84,7 +88,7 @@ var htmlFlight ='<div class="history-home-page-main-left">'+
 				'<div class="history-home-page-main-right">'+
 				  '<div class="history-recents">'+
 						'<div class="history-recents-left">'+
-						 '<a href="'+TPFlightUrl+'?marker='+marker+'&origin_name=Delhi,%20India&origin_iata=DEL&destination_name=Goa,%20India&destination_iata=GOI&depart_date='+checkIn+'&return_date=&Flights_Return_direct=enable&with_request=true&adults=1&children=0&infants=0&trip_class=0&currency=USD&locale=en&one_way=true&ct_guests=1passenger&ct_rooms=1" class="link external"><div class="deltopatfri">'+
+						 '<a href="'+FlightUrl+'/search/DEL/GOI/'+checkIn+'/'+checkOut+'/economy/1/0/d83f2ca14d84bb81-ap-southeast-1" class="link external"><div class="deltopatfri">'+
 							'<div class="deltopatfri1">'+
 								'<span>DEL</span> <span><i class="fa fa-arrow-right"></i></span> <span>GOI</span>'+
 								'</div>'+
@@ -92,7 +96,7 @@ var htmlFlight ='<div class="history-home-page-main-left">'+
 								'<span>'+startDate_txt+'</span>'+
 							'</div>'+
 							'</div></a>'+
-							'<a href="'+TPFlightUrl+'?marker='+marker+'&origin_name=Delhi,%20India&origin_iata=DEL&destination_name=Mumbai,%20India&destination_iata=BOM&depart_date='+checkIn+'&return_date=&Flights_Return_direct=enable&with_request=true&adults=1&children=0&infants=0&trip_class=0&currency=USD&locale=en&one_way=true&ct_guests=1passenger&ct_rooms=1" class="link external"><div class="deltopatfri">'+
+							'<a href="'+FlightUrl+'/search/DEL/BOM/'+checkIn+'/'+checkOut+'/economy/1/0/d83f2ca14d84bb81-ap-southeast-1" class="link external"><div class="deltopatfri">'+
 							'<div class="deltopatfri1">'+
 								'<span>DEL</span> <span><i class="fa fa-arrow-right"></i></span> <span>BOM</span>'+
 								'</div>'+
@@ -276,7 +280,7 @@ if(page.name=='search-hotels'){
 	if(child<=3){
 	$$('#countChilds_'+rel).html(child);
 	$$('#childs_'+rel).val(child);
-	 manageChildAge(child,rel);
+	 /*manageChildAge(child,rel);*/
 	 roomAndGuestCount();
 	}
   });
@@ -289,7 +293,7 @@ if(page.name=='search-hotels'){
 	if(child>=0){
 	$$('#countChilds_'+rel).html(child);
 	$$('#childs_'+rel).val(child);
-	manageChildAge(child,rel);
+	/*manageChildAge(child,rel);*/
 	roomAndGuestCount();
 	}
   });
@@ -319,7 +323,7 @@ if(page.name=='search-hotels'){
    var rooms =$$('#number_of_rooms').val();
    $$('#total_guest').val(guest); 
    $$('#roomGuestTxt').html(guest+' Guests ');
-   $$('#selectedDest_adults').html(guest+' Guests');
+   $$('#selectedDest_adults').html(rooms+ ' Rooms '+guest+' Guests');
  }
   
   
@@ -344,10 +348,10 @@ if(page.name=='search-hotels'){
 	itemTemplate:'<li><label class="label-radio item-content"><input type="radio" name="radio-{{value}}" value="{{value}}" ><div class="item-media"> <i class="material-icons">location_on</i></div><div class="item-inner"><div class="item-title">{{text}}</div></div></label></li>',
     source: function (autocomplete, query, render) {
 	   var data = [
-	   {"countryCode": "ID","country":"Indonesia","fullname": "Bali Island, Indonesia","location":{"lat":"-8.690318","lon":"115.17282"}},
-       {"countryCode": "IN","country":"India","fullname": "Bengaluru, India","location":{"lat":"12.97623","lon":"77.60329"}},
-	   {"countryCode": "IN","country":"India","fullname": "Delhi City, India","location":{"lat":"28.632558","lon":"77.220036"}},
-       {"countryCode": "IN","country":"India","fullname": "Goa, India","location":{"lat":"15.477581","lon":"73.812152"}}
+	   {"id": "1768","n":"New Delhi, India","lname": "New Delhi"},
+       {"id": "1972","n":"Dubai, United Arab Emirates","lname": "Dubai"},
+	   {"id": "934","n":"Mumbai, India","lname": "Mumbai"},
+       {"id": "4003","n":"Las Vegas","lname": "Las Vegas, NV, United States"}
 		
 	   ]; 
 		
@@ -397,9 +401,14 @@ if(page.name=='search-hotels'){
   
    var hotelObject = [];
    $$('.findHotelResults').on('click', function(e){
-	   var formData = MohanApp.formToData('#searchHotel_frm');
-	   MohanApp.formStoreData('HotelRequestData',formData);
-	  
+	   
+	 if($$('#region_name').val()==''){
+		 MohanApp.alert("Select your destination");
+		 return false;
+	 }  
+	 else{   
+	 var formData = MohanApp.formToData('#searchHotel_frm');
+	 MohanApp.formStoreData('HotelRequestData',formData);
 	 var adults =$$('#adults_0').val(); 
 	 var childs =$$('#childs_0').val();
 	 var childAgeArr= new  Array;
@@ -418,14 +427,10 @@ if(page.name=='search-hotels'){
 	  var checkOut =endDateArr[1]+'-'+endDateArr[0]+'-'+endDateArr[2];
 	  
 	  var TotalGuest =$$('#total_guest').val();
-      /*
-	  var param ='marker='+marker+'&destination='+$$('#destination').val()+'&checkIn='+checkIn+'&checkOut='+checkOut+'&adults='+adults+'&children='+childAgeArr+'&language=en&currency=USD&&cityId='+$$('#region_id').val();
-     var url =TPHotelUrl+'?'+param;
-	 */
-	  var url ='http://greenhotels.adivaha.com/hotels/?search[query]='+$$('#region_name').val()+'&search[check_in]='+checkIn+'&search[check_out]='+checkOut+'&search[guests]='+TotalGuest+'&search[rooms]='+$$('#number_of_rooms').val()+'&search[location_id]='+$$('#region_id').val()+'&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5';
-	  alert(url);
-	 
-     window.location.href=url;
+     
+	  var url =HotelUrl+'/?search[query]='+$$('#region_name').val()+'&search[check_in]='+checkIn+'&search[check_out]='+checkOut+'&search[guests]='+TotalGuest+'&search[rooms]='+$$('#number_of_rooms').val()+'&search[location_id]='+$$('#region_id').val()+'&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5';
+      window.location.href=url;
+	 } 
 	  
    })
   
@@ -652,7 +657,7 @@ if(page.name=='search-flights'){
    if(one_way=='false'){ 
     var returnDate =endDateArr[2]+'-'+endDateArr[0]+'-'+endDateArr[1];
    }else{ 
-	var returnDate ='';   
+	var returnDate ='oneway';   
    }
    
    var adults =$$('#adults').val();
@@ -662,12 +667,11 @@ if(page.name=='search-flights'){
    
    var ct_guests =passenger+'passenger';
    var Flights_Return_direct ='enable';
-   
-   var param ='marker='+marker+'&origin_name='+$$('#flight_from').val()+'&origin_iata='+$$('#flight_locationId').val()+'&destination_name='+$$('#flight_to').val()+'&destination_iata='+$$('#flight_to_locationId').val()+'&depart_date='+departDate+'&return_date='+returnDate+'&Flights_Return_direct='+Flights_Return_direct+'&with_request=true&adults='+$$('#adults').val()+'&children='+$$('#childs').val()+'&infants='+$$('#infants').val()+'&trip_class='+trip_class+'&currency=USD&locale=en&one_way='+one_way+'&ct_guests='+ct_guests+'&ct_rooms=1'; 
-   var url =TPFlightUrl+'?'+param;
-   window.location.href=url;
-   // mainView.router.loadPage(url);
 
+   var url =FlightUrl+'/search/'+$$('#flight_locationId').val()+'/'+$$('#flight_to_locationId').val()+'/'+departDate+'/'+returnDate+'/'+result+'/'+$$('#adults').val()+'/'+$$('#childs').val();
+   
+   window.location.href=url;
+   
   })
 }
   
