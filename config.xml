@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="thavel" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Thavel</name>
+<widget id="thavel.com" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Staygo</name>
     <description> Find your hotels and flights.</description>
-    <author email="contact@thavel.com" href="http://thavel.com/">Thavel</author>
+    <author email="contact@staygo.com" href="https://www.staygo.com/">Thavel</author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
@@ -29,7 +29,7 @@
     <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
     <platform name="android">
-        <icon density="ldpi" src="res/icon/android/drawable-ldpi-icon.png" />
+    <icon density="ldpi" src="res/icon/android/drawable-ldpi-icon.png" />
 	<icon density="mdpi" src="res/icon/android/drawable-mdpi-icon.png" />
 	<icon density="hdpi" src="res/icon/android/drawable-hdpi-icon.png" />
 	<icon density="xhdpi" src="res/icon/android/drawable-xhdpi-icon.png" />
