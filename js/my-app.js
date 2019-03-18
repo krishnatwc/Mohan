@@ -1,5 +1,5 @@
 // Initialize your app
-var ThavelApp = new Framework7({
+var MohanApp = new Framework7({
     modalTitle: 'My App',
     // If it is webapp, we can enable hash navigation:
     pushState: true,
@@ -29,10 +29,10 @@ var ThavelApp = new Framework7({
 	
     // Hide and show indicator during ajax requests
     onAjaxStart: function (xhr) {
-        ThavelApp.showIndicator();
+        MohanApp.showIndicator();
     },
     onAjaxComplete: function (xhr) {
-        ThavelApp.hideIndicator();
+        MohanApp.hideIndicator();
     },
 
 });
@@ -40,7 +40,7 @@ var ThavelApp = new Framework7({
 // Export selectors engine
 var $$ = Dom7;
 // Add view
-var mainView = ThavelApp.addView('.view-main', {
+var mainView = MohanApp.addView('.view-main', {
    domCache: true,
 });
 
@@ -50,7 +50,7 @@ var TPHotelUrl ='https://hotel.thavel.com//hotels';
 var TPFlightUrl ='https://flight.thavel.com//flights';
 var marker='145036';
 
-ThavelApp.onPageInit('index', function (page) {
+MohanApp.onPageInit('index', function (page) {
 $$('.pageFlashLoaderKK').show();	
 setTimeout(function(){ $$('.pageFlashLoaderKK').hide('slow'); }, 3000);	
 
@@ -133,7 +133,7 @@ if(page.name=='search-hotels'){
 	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	
     var today =new Date();
-	var calendarRange = ThavelApp.calendar({
+	var calendarRange = MohanApp.calendar({
     input: '#appCalendar',
     dateFormat: 'M dd yyyy',
     rangePicker: true,
@@ -316,46 +316,62 @@ if(page.name=='search-hotels'){
 	  guest =parseInt(guest)+parseInt(chd);
 	}
 	
-	var rooms =$$('#number_of_rooms').val();
-  //$$('#roomGuestTxt').html(rooms+' Rooms, '+guest+' Guests ');
-$$('#roomGuestTxt').html(guest+' Guests ');
-$$('#selectedDest_adults').html(guest+' Guests');
+   var rooms =$$('#number_of_rooms').val();
+   $$('#total_guest').val(guest); 
+   $$('#roomGuestTxt').html(guest+' Guests ');
+   $$('#selectedDest_adults').html(guest+' Guests');
  }
   
   
   /*=== Auto suggetion ===*/
-  var autocompleteDropdownAjax = ThavelApp.autocomplete({
+  var autocompleteDropdownAjax = MohanApp.autocomplete({
 	opener: $$('#autocomplete-standalone-popup'),
     openIn: 'popup',
 	backOnSelect: true,
     preloader: true, 
-    valueProperty: 'fullname', 
-    textProperty: 'fullname', 
+    valueProperty: 'id', 
+    textProperty: 'n', 
     limit: 20, 
-	autoFocus: true,
     dropdownPlaceholderText: 'Try "JavaScript"',
     expandInput: true, 
+	requestSourceOnOpen: true,
+	autoFocus:true,
+	
+	searchbarPlaceholder: 'Enter a city or hotel name',
+	notFoundText: 'Nothing found',
+	
+	
+	itemTemplate:'<li><label class="label-radio item-content"><input type="radio" name="radio-{{value}}" value="{{value}}" ><div class="item-media"> <i class="material-icons">location_on</i></div><div class="item-inner"><div class="item-title">{{text}}</div></div></label></li>',
     source: function (autocomplete, query, render) {
+	   var data = [
+	   {"countryCode": "ID","country":"Indonesia","fullname": "Bali Island, Indonesia","location":{"lat":"-8.690318","lon":"115.17282"}},
+       {"countryCode": "IN","country":"India","fullname": "Bengaluru, India","location":{"lat":"12.97623","lon":"77.60329"}},
+	   {"countryCode": "IN","country":"India","fullname": "Delhi City, India","location":{"lat":"28.632558","lon":"77.220036"}},
+       {"countryCode": "IN","country":"India","fullname": "Goa, India","location":{"lat":"15.477581","lon":"73.812152"}}
+		
+	   ]; 
+		
         var results = [];
         if (query.length === 0) {
+			results = data;   
             render(results);
             return;
         }
         autocomplete.showPreloader();
         $$.ajax({
-            url: 'https://yasen.hotellook.com/autocomplete',
+            url: 'https://secure.wego.com/en/hotels/api/autocomplete/7/locations/6/'+query+'.js',
             method: 'GET',
             dataType: 'json',
             data: {
-                term: query,
-				action: "Location_Fetch",
+                callback:'',
 				lang: 'en',
 				limit: 5
             },
             success: function (data) {
-				var myData =data.cities; 
+				//var myData =data.cities; 
+				var myData =data; 
                 for (var i = 0; i < myData.length; i++) {
-                   if (myData[i].fullname.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(myData[i]);
+                   if (myData[i].n.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(myData[i]);
                 }
                 autocomplete.hidePreloader();
                 render(results);
@@ -364,14 +380,14 @@ $$('#selectedDest_adults').html(guest+' Guests');
     },
 	onChange: function (autocomplete, value) { 
 	 var dataObj =value[0];
-	 $$('#destination').val(dataObj.latinFullName);	
-     $$('#selectedDest').html(dataObj.latinFullName);	 	 
-     $$('#latitude').val(dataObj.location.lat);
-     $$('#longitude').val(dataObj.location.lon);
-	 $$('#region_id').val(dataObj.id);
+	 $$('#destination').val(dataObj.n);	
+     $$('#selectedDest').html(dataObj.n);
+     $$('#region_id').val(dataObj.id);	 
+     $$('#region_name').val(dataObj.lname);
 	}
 	
-   });
+   }); 
+   
 
   $$('.findFlightResults').on('click', function(e){
 		var url ='search-flight-results.html?destination='+$$('#destination').val()+'&latitude='+$$('#latitude').val()+'&longitude='+$$('#longitude').val()+'&checkIn='+$$('#startDate').val()+'&checkOut='+$$('#endDate').val()+'&Cri_currency=USD&Cri_language=en_US&hotelType=1&rooms='+$$('#number_of_rooms').val()+'&adults='+adultsArr+'&childs='+childsArr+'&childAge=';
@@ -381,12 +397,13 @@ $$('#selectedDest_adults').html(guest+' Guests');
   
    var hotelObject = [];
    $$('.findHotelResults').on('click', function(e){
-	   var formData = ThavelApp.formToData('#searchHotel_frm');
-	   ThavelApp.formStoreData('HotelRequestData',formData);
+	   var formData = MohanApp.formToData('#searchHotel_frm');
+	   MohanApp.formStoreData('HotelRequestData',formData);
 	  
 	 var adults =$$('#adults_0').val(); 
 	 var childs =$$('#childs_0').val();
 	 var childAgeArr= new  Array;
+	 
 	 $$('.childAgeCls select').each(function(){ 
 		   var relKey =$$(this).attr('relKey');
 		   childAgeArr.push([relKey, $$(this).val()]); 
@@ -397,11 +414,17 @@ $$('#selectedDest_adults').html(guest+' Guests');
       var startDateArr =startDate.split('/');
       var endDate =$$('#endDate').val();
       var endDateArr =endDate.split('/');
-      var checkIn =startDateArr[2]+'-'+startDateArr[0]+'-'+startDateArr[1];
-	  var checkOut =endDateArr[2]+'-'+endDateArr[0]+'-'+endDateArr[1];
-
+      var checkIn =startDateArr[1]+'-'+startDateArr[0]+'-'+startDateArr[2];
+	  var checkOut =endDateArr[1]+'-'+endDateArr[0]+'-'+endDateArr[2];
+	  
+	  var TotalGuest =$$('#total_guest').val();
+      /*
 	  var param ='marker='+marker+'&destination='+$$('#destination').val()+'&checkIn='+checkIn+'&checkOut='+checkOut+'&adults='+adults+'&children='+childAgeArr+'&language=en&currency=USD&&cityId='+$$('#region_id').val();
      var url =TPHotelUrl+'?'+param;
+	 */
+	  var url ='http://greenhotels.adivaha.com/hotels/?search[query]='+$$('#region_name').val()+'&search[check_in]='+checkIn+'&search[check_out]='+checkOut+'&search[guests]='+TotalGuest+'&search[rooms]='+$$('#number_of_rooms').val()+'&search[location_id]='+$$('#region_id').val()+'&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5';
+	  alert(url);
+	 
      window.location.href=url;
 	  
    })
@@ -431,7 +454,7 @@ if(page.name=='search-flights'){
     var weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var today =new Date();
-	var calendarRange = ThavelApp.calendar({
+	var calendarRange = MohanApp.calendar({
 	input: '#appCalendar',
 	dateFormat: 'M dd yyyy',
 	rangePicker: true,
@@ -456,7 +479,7 @@ if(page.name=='search-flights'){
 	   }
 	});	
    /*=== Activity Auto suggetion ===*/	
-   var autocompleteDropdownAjax = ThavelApp.autocomplete({
+   var autocompleteDropdownAjax = MohanApp.autocomplete({
 	opener: $$('#autocomplete-standalone-popup'),
 	openIn: 'popup',
 	backOnSelect: true,
@@ -502,7 +525,7 @@ if(page.name=='search-flights'){
 	}
   });
 
-  var autocompleteDropdownAjax = ThavelApp.autocomplete({
+  var autocompleteDropdownAjax = MohanApp.autocomplete({
 	opener: $$('#autocomplete-standalone-popup-to'),
 	openIn: 'popup',
 	backOnSelect: true,
