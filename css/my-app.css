@@ -7,7 +7,7 @@
 
 .buttoncol{padding:35px;width:50%;height:50%;text-align:center}
  .toolbar-fixed .page-content {
-      padding: 6em 12px !important;
+      padding: 2em 12px !important;
     
 }
 .navbar-fixed.toolbar-fixed .page-content{ }
@@ -992,7 +992,8 @@ box-shadow: 2px 3px 3px 0px rgba(227,215,227,1);
 .btnHotelrel {
     padding: 0px 10px;
 }
-.HomeLogoimg{    text-align: center;    margin-bottom: 36px;
+.HomeLogoimg{      text-align: center;
+    margin: 23px 0px;
     float: left;
     width: 100%;
     }
