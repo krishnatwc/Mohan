@@ -2,7 +2,7 @@
 <widget id="thavel.com" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Staygo</name>
     <description> Find your hotels and flights.</description>
-    <author email="contact@staygo.com" href="https://www.staygo.com/">Thavel</author>
+    <author email="contact@staygo.com" href="https://www.staygo.com/">Staygo</author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
