@@ -46,8 +46,8 @@ var mainView = MohanApp.addView('.view-main', {
 
 
 var RequestURL ='https://www.adivaha.com/demo/MobAppRequest';
-var HotelUrl ='http://hotels.staygo.com/hotels';
-var FlightUrl ='http://flights.staygo.com/flights';
+var HotelUrl ='http://hotel.staygo.com/hotels';
+var FlightUrl ='http://flight.staygo.com/flights';
 
 MohanApp.onPageInit('index', function (page) { 
 $$('.pageFlashLoaderKK').show();	
