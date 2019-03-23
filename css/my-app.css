@@ -7,7 +7,7 @@
 
 .buttoncol{padding:35px;width:50%;height:50%;text-align:center}
  .toolbar-fixed .page-content {
-      padding: 2em 12px !important;
+      padding: 6em 12px !important;
     
 }
 .navbar-fixed.toolbar-fixed .page-content{ }
@@ -869,9 +869,11 @@ margin-top: 10%;}
 }	
 .tabs{border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;}
-.box-shadows{    box-shadow: 2px 3px 3px 0px rgba(227,215,227,1);
-    clear: both;border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;}
+.box-shadows{box-shadow: 0px 1px 3px 3px rgb(224, 214, 214);
+    clear: both;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-radius: 5px;}
 .ribbon1 span { font-size: 11px;color: #F44336;text-transform: capitalize;margin-right: 0px;}
 .resultpagetop{}	
 .resultpagehotels{white-space: pre-line ! important; max-width: 284px !important;font-size: 13.5px;overflow: hidden;font-weight: 500;}
@@ -992,8 +994,7 @@ box-shadow: 2px 3px 3px 0px rgba(227,215,227,1);
 .btnHotelrel {
     padding: 0px 10px;
 }
-.HomeLogoimg{      text-align: center;
-    margin: 23px 0px;
+.HomeLogoimg{    text-align: center;    margin-bottom: 36px;
     float: left;
     width: 100%;
     }
@@ -1016,11 +1017,15 @@ box-shadow: 2px 3px 3px 0px rgba(227,215,227,1);
 .lds-grid-loading{    position: fixed;
     z-index: 9999;
     text-align: center;
-    background-color: #4786b3;
+    background-color: #000;
     height: 100%;
     width: 100%;}
 
-
+#flightappCalendar{    position: absolute;
+    float: left;
+    left: 0%;
+    height: 50px;
+    width: 50%;}
 .lds-grid{position: relative;top: 45%;left: 0px;right: 0px;}
 
 .BontentBlockDrawer{    background-color: rgba(0, 0, 0, 0.5);
