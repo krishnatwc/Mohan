@@ -390,6 +390,19 @@ $$('.findHotelResults').on('click', function(e){
 }) 
 
 /*=== Start Flight Clinet ===*/
+var strDate =new Date();
+var enrDate =new Date();
+strDate.setDate(strDate.getDate() + 1);
+enrDate.setDate(enrDate.getDate() + 3);
+
+var startDate = (strDate.getMonth()+1) + "/" + strDate.getDate() + "/" +strDate.getFullYear();
+var enDate = (enrDate.getMonth()+1) + "/" + enrDate.getDate() + "/" +enrDate.getFullYear();
+var startRange =strDate.getFullYear()+', '+(strDate.getMonth()+1)+', '+strDate.getDate();
+var endRange =enrDate.getFullYear()+', '+(enrDate.getMonth()+1)+', '+enrDate.getDate();
+
+
+$$('#fligth_startDate').val(startDate);
+$$('#fligth_endDate').val(enDate);
 var flightcalendarRange = MohanApp.calendar({
 	input: '#flightappCalendar',
 	dateFormat: 'M dd yyyy',
@@ -506,51 +519,7 @@ var autocompleteDropdownAjax = MohanApp.autocomplete({
      $$('#flight_selectedToDest').html(dataObj.city_fullname);	 	 
 	}
   });
-   var autocompleteDropdownAjax = MohanApp.autocomplete({
-	opener: $$('#flight-autocomplete-standalone-popup-to'),
-	openIn: 'popup',
-	backOnSelect: true,
-	preloader: true, 
-	valueProperty: 'city_code', 
-	textProperty: 'city_fullname', 
-	limit: 20, 
-	autoFocus: true,
-	dropdownPlaceholderText: 'Try "JavaScript"',
-	expandInput: true, 
-	source: function (autocomplete, query, render) {
-		var results = [];
-		if (query.length === 0) {
-			render(results);
-			return;
-		}
-		autocomplete.showPreloader();
-		$$.ajax({
-			url: 'https://www.jetradar.com/autocomplete/places',
-			method: 'GET',
-			dataType: 'json',
-			data: {
-				q: query,
-				with_countries: "false",
-				locale: 'en',
-				limit: 5
-			},
-			success: function (data) {
-				var myData =data; 
-				for (var i = 0; i < myData.length; i++) {
-				   if (myData[i].city_fullname.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(myData[i]);
-				}
-				autocomplete.hidePreloader();
-				render(results);
-			}
-		});
-	},
-	onChange: function (autocomplete, value) { 
-	 var dataObj =value[0];
-	 $$('#flight_to').val(dataObj.city_fullname);
-	 $$('#flight_to_locationId').val(dataObj.city_code);	
-     $$('#selectedToDest').html(dataObj.city_fullname);	 	 
-	}
-  });
+ 
    $$('.managePassenger').on('click', function () {
 	  var adults =$$('#adults').val();
 	  var childs =$$('#childs').val();
@@ -608,10 +577,10 @@ var autocompleteDropdownAjax = MohanApp.autocomplete({
 	 var rel =$$(this).attr('rel');
 	 if(rel=='round'){
 		$$('#one_way').val('false'); 
-		$$('.endDatecss').removeClass('disabledClass'); 
+		$$('.flightendDatecss').removeClass('disabledClass'); 
 	 }else{
 	   $$('#one_way').val('true'); 	 
-	   $$('.endDatecss').addClass('disabledClass');
+	   $$('.flightendDatecss').addClass('disabledClass');
 	 }
   });
     $$('.findFlightResults').on('click', function (e) {
@@ -621,9 +590,9 @@ var autocompleteDropdownAjax = MohanApp.autocomplete({
    
    var one_way =$$('#one_way').val();
    
-   var startDate =$$('#startDate').val();
+   var startDate =$$('#fligth_startDate').val();
    var startDateArr =startDate.split('/');
-   var endDate =$$('#endDate').val();
+   var endDate =$$('#fligth_endDate').val();
    var endDateArr =endDate.split('/');
    var departDate =startDateArr[2]+'-'+startDateArr[0]+'-'+startDateArr[1];
    
@@ -694,8 +663,8 @@ MohanApp.onPageInit('index', function (page) {  alert('');
 	var startRange =strDate.getFullYear()+', '+(strDate.getMonth()+1)+', '+strDate.getDate();
 	var endRange =enrDate.getFullYear()+', '+(enrDate.getMonth()+1)+', '+enrDate.getDate();
 	
-	$$('#startDate').val(startDate);
-	$$('#endDate').val(enDate);
+	$$('#fligth_startDate').val(startDate);
+	$$('#fligth_endDate').val(enDate);
 	
 	
  
@@ -704,7 +673,7 @@ MohanApp.onPageInit('index', function (page) {  alert('');
 	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var today =new Date();
 	var calendarRange = MohanApp.calendar({
-	input: '#appCalendar',
+	input: '#flightappCalendar',
 	dateFormat: 'M dd yyyy',
 	rangePicker: true,
 	minDate: today,
@@ -721,10 +690,10 @@ MohanApp.onPageInit('index', function (page) {  alert('');
 		var startDate_txt = weekday[start.getDay()]+', '+start.getDate()+' '+monthNames[start.getMonth()]+' '+start.getFullYear().toString().substr(-2);
 		var endDate_txt = weekday[end.getDay()]+', '+end.getDate()+' '+monthNames[end.getMonth()]+' '+end.getFullYear().toString().substr(-2);
 		
-		$$('#startDate').val(startDate);
-		$$('#endDate').val(endDate);
-		$$('#startDate_txt').html(startDate_txt);
-		$$('#endDate_txt').html(endDate_txt);
+		$$('#fligth_startDate').val(startDate);
+		$$('#fligth_endDate').val(endDate);
+		$$('#fligth_startDate_txt').html(startDate_txt);
+		$$('#fligth_endDate_txt').html(endDate_txt);
 	   }
 	});	
    /*=== Activity Auto suggetion ===*/	
@@ -770,7 +739,7 @@ MohanApp.onPageInit('index', function (page) {  alert('');
 	 var dataObj =value[0];
 	 $$('#flight_from').val(dataObj.city_fullname);
 	 $$('#flight_locationId').val(dataObj.city_code);
-     $$('#selectedDest').html(dataObj.city_fullname);	 	 
+     $$('#flight_selectedDest').html(dataObj.city_fullname);	 	 
 	}
   });
 
@@ -816,7 +785,7 @@ MohanApp.onPageInit('index', function (page) {  alert('');
 	 var dataObj =value[0];
 	 $$('#flight_to').val(dataObj.city_fullname);
 	 $$('#flight_to_locationId').val(dataObj.city_code);	
-     $$('#selectedToDest').html(dataObj.city_fullname);	 	 
+     $$('#flight_selectedToDest').html(dataObj.city_fullname);	 	 
 	}
   });  
 	
@@ -878,10 +847,10 @@ MohanApp.onPageInit('index', function (page) {  alert('');
 	 var rel =$$(this).attr('rel');
 	 if(rel=='round'){
 		$$('#one_way').val('false'); 
-		$$('.endDatecss').removeClass('disabledClass'); 
+		$$('.flightendDatecss').removeClass('disabledClass'); 
 	 }else{
 	   $$('#one_way').val('true'); 	 
-	   $$('.endDatecss').addClass('disabledClass');
+	   $$('.flightendDatecss').addClass('disabledClass');
 	 }
   });
   
@@ -892,9 +861,9 @@ MohanApp.onPageInit('index', function (page) {  alert('');
    
    var one_way =$$('#one_way').val();
    
-   var startDate =$$('#startDate').val();
+   var startDate =$$('#fligth_startDate').val();
    var startDateArr =startDate.split('/');
-   var endDate =$$('#endDate').val();
+   var endDate =$$('#fligth_endDate').val();
    var endDateArr =endDate.split('/');
    var departDate =startDateArr[2]+'-'+startDateArr[0]+'-'+startDateArr[1];
    
