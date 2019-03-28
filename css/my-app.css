@@ -105,7 +105,7 @@ img.ks-demo-lazy {display: block;width: 100%;height: auto;}
 .locationPageNaver{background-color: #fff !important;box-shadow: 0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23) !important;top: 0px;left: 0px;right: 0px;position: absolute;}	
 .locationPageNaver .material-icons{color:#000;position: relative;left: 10px;top: 4px;}	
 .panel { width: 80%; }
-.toolbar-inner { background: #006bb6; }
+.toolbar-inner {  }
 .theme-green .searchbar{    background-color: #006bb6;}
 .locationPagePlaceholder input[placeholder] {color: #b5b0b0 !important;border-bottom: 0px solid #7d0b0b;font-size: 16px;    padding: 18px!important;}
 .SearchPagetile{background-color: #006bb6;margin: 0px;padding: 0px;text-align: center;position: fixed;left: 0px;right: 0px;z-index: 999; box-shadow: 0 2px 12px rgba(0,0,0,.175);}
@@ -472,15 +472,16 @@ img.ks-demo-lazy {display: block;width: 100%;height: auto;}
 .HotelDiVBoxRight .PseitelDes{    margin: 0px;
     font-size: 17px;
     color: #000;
-    background: #dddddd;
+    background: #dddddd75;
     border-radius: 15px;
     padding: 4px 14px;font-weight: 600;}
 	#selectedDest_adults{    margin: 0px;    margin: 0px;
     font-weight: 600;
 }
+.picker-calendar .toolbar{background-color: #006bb6 !important;}
 .theme-green .picker-header{background-color: #006bb6;
     color: #fff;
-    border-bottom: 1px solid #fff;}
+    border-bottom: 0px solid #fff;}
 .theme-green .picker-calendar-day.picker-calendar-day-selected span{background-color: #fcb827 ;
     color: #fff;}
 .HotelDiVBoxLeft .fa{font-size: 18px;position: relative;top: 16px;}
