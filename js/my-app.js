@@ -150,6 +150,13 @@ source: function (autocomplete, query, render) {
    {"id": "1768","n":"New Delhi, India","lname": "New Delhi"},
    {"id": "1972","n":"Dubai, United Arab Emirates","lname": "Dubai"},
    {"id": "934","n":"Mumbai, India","lname": "Mumbai"},
+    {"id": "866","n":"Bangalore, Karnataka, India","lname": "Bangalore"},
+   {"id": "1251","n":"Kolkata, India","lname": "Kolkata"},
+   {"id": "934","n":"Mumbai, India","lname": "Mumbai"},
+    {"id": "2636","n":"Goa, India","lname": "Goa"},
+   {"id": "22438","n":"Tamilnadu, India","lname": "Tamilnadu"},
+   {"id": "6667","n":"Singapore, Singapore","lname": "Singapore"},
+    {"id": "5658","n":"Patna, India","lname": "Patna"},
    {"id": "4003","n":"Las Vegas","lname": "Las Vegas, NV, United States"}
 	
    ]; 
