@@ -191,8 +191,9 @@ onChange: function (autocomplete, value) {
  var dataObj =value[0];
  $$('#destination').val(dataObj.n);	
  $$('#selectedDest').html(dataObj.n);
- $$('#region_id').val(dataObj.id);	 
+ $$('#region_id').val(dataObj.lcode);	 
  $$('#region_name').val(dataObj.lname);
+ 
 }
 
 });  
@@ -384,12 +385,23 @@ $$('.findHotelResults').on('click', function(e){
   var startDateArr =startDate.split('/');
   var endDate =$$('#endDate').val();
   var endDateArr =endDate.split('/');
+  
+   var checkIn =startDateArr[2]+'-'+startDateArr[0]+'-'+startDateArr[1];
+  var checkOut =endDateArr[2]+'-'+endDateArr[0]+'-'+endDateArr[1];
+  
+  /*
   var checkIn =startDateArr[1]+'-'+startDateArr[0]+'-'+startDateArr[2];
-  var checkOut =endDateArr[1]+'-'+endDateArr[0]+'-'+endDateArr[2];
+  var checkOut =endDateArr[1]+'-'+endDateArr[0]+'-'+endDateArr[2];*/
   
   var TotalGuest =$$('#total_guest').val();
  
-  var url =HotelUrl+'/?search[query]='+$$('#region_name').val()+'&search[check_in]='+checkIn+'&search[check_out]='+checkOut+'&search[guests]='+TotalGuest+'&search[rooms]='+$$('#number_of_rooms').val()+'&search[location_id]='+$$('#region_id').val()+'&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5';
+  /*var url =HotelUrl+'/?search[query]='+$$('#region_name').val()+'&search[check_in]='+checkIn+'&search[check_out]='+checkOut+'&search[guests]='+TotalGuest+'&search[rooms]='+$$('#number_of_rooms').val()+'&search[location_id]='+$$('#region_id').val()+'&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5';*/
+  
+ // var url = 'https://www.wego.com/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?ts_code=f0e26&guests='+TotalGuest+'&sort=popularity&order=desc&locale=hi';
+  
+  
+   var url = 'https://www.wego.com/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?ts_code=f0e26&guests='+TotalGuest+'-'+$$('#number_of_rooms').val()+'&sort=popularity&order=desc&locale=hi';
+  
   window.location.href=url;
  } 
   
