@@ -399,9 +399,10 @@ $$('.findHotelResults').on('click', function(e){
   
 
   
+
+   var url = 'https://www.wego.com/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?ts_code=f0e26&guests='+TotalGuest+'&sort=popularity&order=desc&locale=hi';
   
-   var url = 'https://www.wego.com/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?ts_code=f0e26&guests='+TotalGuest+'-'+$$('#number_of_rooms').val()+'&sort=popularity&order=desc&locale=hi';
-  
+  alert ("n");
   window.location.href=url;
  } 
   
