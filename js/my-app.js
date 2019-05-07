@@ -397,7 +397,7 @@ $$('.findHotelResults').on('click', function(e){
  
   /*var url =HotelUrl+'/?search[query]='+$$('#region_name').val()+'&search[check_in]='+checkIn+'&search[check_out]='+checkOut+'&search[guests]='+TotalGuest+'&search[rooms]='+$$('#number_of_rooms').val()+'&search[location_id]='+$$('#region_id').val()+'&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5';*/
   
- // var url = 'https://www.wego.com/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?ts_code=f0e26&guests='+TotalGuest+'&sort=popularity&order=desc&locale=hi';
+
   
   
    var url = 'https://www.wego.com/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?ts_code=f0e26&guests='+TotalGuest+'-'+$$('#number_of_rooms').val()+'&sort=popularity&order=desc&locale=hi';
