@@ -411,7 +411,6 @@ $$('.findHotelResults').on('click', function(e){
   var TotalGuest =$$('#total_guest').val();
  
   var url = 'https://www.wego.co.in/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?guests='+TotalGuest+'&sort=popularity&order=desc';
-  alert(url);
   window.location.href=url;
  } 
   
