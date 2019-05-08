@@ -386,19 +386,31 @@ $$('.findHotelResults').on('click', function(e){
   var endDate =$$('#endDate').val();
   var endDateArr =endDate.split('/');
   
-   var checkIn =startDateArr[2]+'-'+startDateArr[0]+'-'+startDateArr[1];
-  var checkOut =endDateArr[2]+'-'+endDateArr[0]+'-'+endDateArr[1];
+  var checkin_year =startDateArr[2];
+  var checkin_month =startDateArr[0];
+  if(checkin_month<10){
+	  checkin_month ='0'+checkin_month;
+  }
+  var checkin_date =startDateArr[1];
+  if(checkin_date<10){
+	  checkin_date ='0'+checkin_date;
+  }
   
-  /*
-  var checkIn =startDateArr[1]+'-'+startDateArr[0]+'-'+startDateArr[2];
-  var checkOut =endDateArr[1]+'-'+endDateArr[0]+'-'+endDateArr[2];*/
+  var checkout_year =endDateArr[2];
+  var checkout_month =endDateArr[0];
+  if(checkout_month<10){
+	  checkout_month ='0'+checkout_month;
+  }
+  var checkout_date =endDateArr[1];
+  if(checkout_date<10){
+	  checkout_date ='0'+checkout_date;
+  }
   
+  var checkIn =checkin_year+'-'+checkin_month+'-'+checkin_date;
+  var checkOut =checkout_year+'-'+checkout_month+'-'+checkout_date;
   var TotalGuest =$$('#total_guest').val();
  
-  /*var url =HotelUrl+'/?search[query]='+$$('#region_name').val()+'&search[check_in]='+checkIn+'&search[check_out]='+checkOut+'&search[guests]='+TotalGuest+'&search[rooms]='+$$('#number_of_rooms').val()+'&search[location_id]='+$$('#region_id').val()+'&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5';*/
-  
-
-  var url = 'https://www.wego.com/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?ts_code=f0e26&guests='+TotalGuest+'&sort=popularity&order=desc&locale=hi';
+  var url = 'https://www.wego.co.in/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?guests='+TotalGuest+'&sort=popularity&order=desc';
   alert(url);
   window.location.href=url;
  } 
