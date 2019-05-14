@@ -792,11 +792,11 @@ var htmlFlight ='<div class="history-home-page-main-left">';
 				htmlFlight+='<div class="deltopatfri1">';
 					htmlFlight+='<span>'+from_iata+'</span> <span><i class="fa fa-arrow-right"></i></span> <span>'+to_iata+'</span>';
 					  if(returnDate!=''){
-						htmlFlight+='<span>'+to_iata+'</span> <span><i class="fa fa-arrow-right"></i></span> <span>'+from_iata+'</span>';	
+						htmlFlight+='<div><span>'+to_iata+'</span> <span><i class="fa fa-arrow-right"></i></span> <span>'+from_iata+'</span></div>';	
 					   }
 				     htmlFlight+='</div>';
 					htmlFlight+='<div class="deltopatfri2">';
-						htmlFlight+='<span>'+fstartDate_txt+'</span>';
+						htmlFlight+='<span>'+fstartDate_txt+'-  </span>';
 						 if(returnDate!=''){
 						  htmlFlight+='<span>'+fendDate_txt+'</span>';
 						  }
