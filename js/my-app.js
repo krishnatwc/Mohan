@@ -46,8 +46,10 @@ var mainView = MohanApp.addView('.view-main', {
 
 
 var RequestURL ='https://www.adivaha.com/demo/MobAppRequest';
-var HotelUrl ='http://hotel.staygo.com/hotels';
-var FlightUrl ='http://flight.staygo.com/flights';
+//var HotelUrl ='http://hotel.staygo.com/hotels';
+//var FlightUrl ='http://flight.staygo.com/flights';
+var HotelUrl ='https://www.wego.co.in/hotels/searches';
+var FlightUrl ='https://www.wego.co.in/flights/searches';
 
 MohanApp.onPageInit('index', function (page) { 
 $$('.pageFlashLoaderKK').show();	
@@ -147,16 +149,12 @@ notFoundText: 'Nothing found',
 itemTemplate:'<li><label class="label-radio item-content"><input type="radio" name="radio-{{value}}" value="{{value}}" ><div class="item-media"> <i class="material-icons">location_on</i></div><div class="item-inner"><div class="item-title">{{text}}</div></div></label></li>',
 source: function (autocomplete, query, render) {
    var data = [
-   {"id": "1768","n":"New Delhi, India","lname": "New Delhi"},
-   {"id": "1972","n":"Dubai, United Arab Emirates","lname": "Dubai"},
-   {"id": "934","n":"Mumbai, India","lname": "Mumbai"},
-    {"id": "866","n":"Bangalore, India","lname": "Bangalore"},
-   {"id": "1251","n":"Kolkata, India","lname": "Kolkata"},
-   {"id": "2636","n":"Goa, India","lname": "Goa"},
-   {"id": "22438","n":"Tamilnadu, India","lname": "Tamilnadu"},
-   {"id": "6667","n":"Singapore, Singapore","lname": "Singapore"},
-    {"id": "5658","n":"Patna, India","lname": "Patna"},
-   {"id": "4003","n":"Las Vegas","lname": "Las Vegas, NV, United States"}
+   {"id": "1768","n":"New Delhi, India","lname": "New Delhi","lcode":"DEL"},
+   {"id": "1972","n":"Dubai, United Arab Emirates","lname": "Dubai" ,"lcode":"DXB"},
+   {"id": "934","n":"Mumbai, India","lname": "Mumbai","lcode":"BOM"},
+   {"id": "2636","n":"Goa, India","lname": "Goa","lcode":"GOI"},
+   {"id": "6667","n":"Singapore, Singapore","lname": "Singapore","lcode":"SIN"},
+   {"id": "4003","n":"Las Vegas","lname": "Las Vegas, NV, United States","lcode":"LAS"}
 	
    ]; 
 	
@@ -358,6 +356,16 @@ $$('.addMoreRooms').on('click', function () {
    $$('#total_guest').val(guest); 
    $$('#roomGuestTxt').html(guest+' Guests ');
    $$('#selectedDest_adults').html(rooms+ ' Rooms '+guest+' Guests');
+   
+   //RoomWise Guest
+   var roomWiseGuest='';
+   for(var k=0;k<rooms;k++){
+	 var roomGuest= parseInt(adts[k].value)+parseInt(chds[k].value);	
+	 roomWiseGuest+=roomGuest+'-'; 
+   }
+   roomWiseGuest =roomWiseGuest.slice(0,-1);
+   $$("#room_wise_guest").val(roomWiseGuest);
+   
  }
 
 
@@ -370,7 +378,7 @@ $$('.findHotelResults').on('click', function(e){
  }  
  else{   
  var formData = MohanApp.formToData('#searchHotel_frm');
- MohanApp.formStoreData('HotelRequestData',formData);
+ //MohanApp.formStoreData('HotelRequestData',formData);
  var adults =$$('#adults_0').val(); 
  var childs =$$('#childs_0').val();
  var childAgeArr= new  Array;
@@ -408,9 +416,14 @@ $$('.findHotelResults').on('click', function(e){
   
   var checkIn =checkin_year+'-'+checkin_month+'-'+checkin_date;
   var checkOut =checkout_year+'-'+checkout_month+'-'+checkout_date;
+  var number_of_rooms = $$('#number_of_rooms').val(); 
   var TotalGuest =$$('#total_guest').val();
- 
-  var url = 'https://www.wego.co.in/hotels/searches/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+$$('#number_of_rooms').val()+'/'+TotalGuest+'?guests='+TotalGuest+'&sort=popularity&order=desc';
+  var room_wise_guest = $$("#room_wise_guest").val();
+  
+   MohanApp.formStoreData('myhoteldata',{'destination':$$('#destination').val(),'region_id':$$('#region_id').val(),'rooms': number_of_rooms,'total_guest': TotalGuest,'room_wise_guest':room_wise_guest,'checkIn':checkIn,'checkOut':checkOut});
+  
+  var url = HotelUrl+'/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+number_of_rooms+'/'+TotalGuest+'?guests='+room_wise_guest+'&sort=popularity&order=desc';
+  
   window.location.href=url;
  } 
   
@@ -610,13 +623,13 @@ var autocompleteDropdownAjax = MohanApp.autocomplete({
 	   $$('.flightendDatecss').addClass('disabledClass');
 	 }
   });
-    $$('.findFlightResults').on('click', function (e) {
+  
+  $$('.findFlightResults').on('click', function (e) {
    var result =$$('input[name=result]:checked').val();	 
    var trip_class =0;
    if(result=='Business'){ trip_class=1;  }
    
    var one_way =$$('#one_way').val();
-   
    var startDate =$$('#fligth_startDate').val();
    var startDateArr =startDate.split('/');
    var endDate =$$('#fligth_endDate').val();
@@ -626,7 +639,7 @@ var autocompleteDropdownAjax = MohanApp.autocomplete({
    if(one_way=='false'){ 
     var returnDate =endDateArr[2]+'-'+endDateArr[0]+'-'+endDateArr[1];
    }else{ 
-	var returnDate ='oneway';   
+	var returnDate ='';   
    }
    
    var adults =$$('#adults').val();
@@ -637,48 +650,169 @@ var autocompleteDropdownAjax = MohanApp.autocomplete({
    var ct_guests =passenger+'passenger';
    var Flights_Return_direct ='enable';
 
-   var url =FlightUrl+'/search/'+$$('#flight_locationId').val()+'/'+$$('#flight_to_locationId').val()+'/'+departDate+'/'+returnDate+'/'+result+'/'+$$('#adults').val()+'/'+$$('#childs').val();
+   //var url =FlightUrl+'/search/'+$$('#flight_locationId').val()+'/'+$$('#flight_to_locationId').val()+'/'+departDate+'/'+returnDate+'/'+result+'/'+$$('#adults').val()+'/'+$$('#childs').val();
    
+   MohanApp.formStoreData('myflightdata',{'from_dest':$$('#flight_from').val(),'from_iata':$$('#flight_locationId').val(),'to_dest':$$('#flight_to').val(),'to_iata':$$('#flight_to_locationId').val(),'adults': adults,'childs': childs,'infants':infants,'departDate':departDate,'returnDate':returnDate,'classtype':result});
+   
+   var flightLocationWithdate ='c'+$$('#flight_locationId').val()+'-c'+$$('#flight_to_locationId').val()+'-'+departDate;
+   if(returnDate!=''){
+	 flightLocationWithdate+=':c'+$$('#flight_to_locationId').val()+'-c'+$$('#flight_locationId').val()+'-'+returnDate;   
+   }
+   var flightMember =adults+'a:'+childs+'c:'+infants+'i'; 
+   var url =FlightUrl+'/'+flightLocationWithdate+'/'+result+'/'+flightMember+'?sort=price&order=asc';
    window.location.href=url;
    
   });
-var htmlHotel ='<div class="history-home-page-main-left"><img src="img/hotels1.jpg"></div><a href="'+HotelUrl+'?search[query]=New%20Delhi&search[check_in]='+checkInWego+'&search[check_out]='+checkOutWego+'&search[guests]=2&search[rooms]=1&search[location_id]=1768&search[district_id]=&search[property_id]=&search[property_name]=searchsearch&wg-locale=en&wg-def-location=&sub_id=wego-demo-hotels&ts_code=3aae5" class="link external"><div class="history-home-page-main-right"><div class="history-home-text">New Delhi, India</div><div class="history-home-text1">'+startDate_txt+' - '+endDate_txt+'</div><div class="history-home-text2"><i class="fa fa-user"></i> 2 Guests </div><div class="history-home-text3"><i class="fa fa-bed"></i>1 Room </div></a></div>';
-
+ 
+ 
+/*== Display Cookie data ===*/
+  var HotelStoredData =MohanApp.formGetData('myhoteldata');
+  var currentDate = new Date();
+  
+  var hDesctination ='New delhi, India';
+  var hRegionId ='DEL';
+  var hRooms =1;
+  var hTotalGuest=1;
+  var hRoomWiseGuest=1;
+  if(HotelStoredData.destination!=''){
+	 hDesctination=HotelStoredData.destination;  
+	 hRegionId=HotelStoredData.region_id;
+	 hRooms =1;
+     hTotalGuest=1;
+     hRoomWiseGuest=1;
+  }
+  
+  if( (new Date(HotelStoredData.checkIn) >= new Date()) && (HotelStoredData.checkIn!='') || (HotelStoredData.checkIn!='undefined') ){
+	 var checkIn =HotelStoredData.checkIn;
+	 var checkOut =HotelStoredData.checkOut;
+	 var checkInArr =checkIn.split('-');
+	 var checkOutArr =checkOut.split('-');
+	 
+	 var checkin_date =parseInt(checkInArr[2]);
+	 var checkin_month =parseInt(checkInArr[1]);
+	 var checkin_year =checkInArr[0];
+	 var checkout_date =parseInt(checkOutArr[2]);
+	 var checkout_month =parseInt(checkOutArr[1]);
+	 var checkout_year =checkOutArr[0];
+	 
+	 var startDate_txt = checkin_date+' '+monthNames[checkin_month]+' '+checkin_year;
+     var endDate_txt = checkout_date+' '+monthNames[checkout_month]+' '+checkout_year;
+  }
+  else{
+	  var checkInArr =checkIn.split('-');
+	  var checkOutArr =checkOut.split('-');  	
+	  var checkin_year =checkInArr[0];
+	  var checkin_month =checkInArr[1];
+	  if(checkin_month<10){
+		  checkin_month ='0'+checkin_month;
+	  }
+	  var checkin_date =checkInArr[2];
+	  if(checkin_date<10){
+		  checkin_date ='0'+checkin_date;
+	  }
+	  
+	  var checkout_year =checkOutArr[0];
+	  var checkout_month =checkOutArr[1];
+	  if(checkout_month<10){
+		  checkout_month ='0'+checkout_month;
+	  }
+	  var checkout_date =checkOutArr[2];
+	  if(checkout_date<10){
+		  checkout_date ='0'+checkout_date;
+	  }
+	  
+	  var checkIn =checkin_year+'-'+checkin_month+'-'+checkin_date;
+	  var checkOut =checkout_year+'-'+checkout_month+'-'+checkout_date; 
+	  var startDate_txt = checkin_date+' '+checkin_month+' '+monthNames[(checkin_month+1)]+' '+checkin_year;
+      var endDate_txt =   checkout_date+' '+checkout_month+' '+monthNames[(checkout_year+1)]+' '+checkout_year;
+  }
+ 
+  
+var htmlHotel ='<div class="history-home-page-main-left"><img src="img/hotels1.jpg"></div><a href="'+HotelUrl+'/'+hRegionId+'/'+checkIn+'/'+checkOut+'/'+hRooms+'/'+hTotalGuest+'?guests='+hRoomWiseGuest+'&sort=popularity&order=desc" class="link external"><div class="history-home-page-main-right"><div class="history-home-text">'+hDesctination+'</div><div class="history-home-text1">'+startDate_txt+' - '+endDate_txt+'</div><div class="history-home-text2"><i class="fa fa-user"></i> 2 Guests </div><div class="history-home-text3"><i class="fa fa-bed"></i>1 Room </div></a></div>';
 
 $$('#storeHotelLists').html(htmlHotel);
 
-var htmlFlight ='<div class="history-home-page-main-left">'+
-					'<img src="img/flights1.png">'+
-				'</div>'+
-				'<div class="history-home-page-main-right">'+
-				  '<div class="history-recents">'+
-						'<div class="history-recents-left">'+
-						 '<a href="'+FlightUrl+'/search/DEL/GOI/'+checkIn+'/'+checkOut+'/economy/1/0/d83f2ca14d84bb81-ap-southeast-1" class="link external"><div class="deltopatfri">'+
-							'<div class="deltopatfri1">'+
-								'<span>DEL</span> <span><i class="fa fa-arrow-right"></i></span> <span>GOI</span>'+
-								'</div>'+
-									'<div class="deltopatfri2">'+
-								'<span>'+startDate_txt+'</span>'+
-							'</div>'+
-							'</div></a>'+
-							'<a href="'+FlightUrl+'/search/DEL/BOM/'+checkIn+'/'+checkOut+'/economy/1/0/d83f2ca14d84bb81-ap-southeast-1" class="link external"><div class="deltopatfri">'+
-							'<div class="deltopatfri1">'+
-								'<span>DEL</span> <span><i class="fa fa-arrow-right"></i></span> <span>BOM</span>'+
-								'</div>'+
-									'<div class="deltopatfri2">'+
-								'<span>'+startDate_txt+'</span>'+
-							'</div>'+
-							'</div></a>'+
-					'</div>'+
-					'</div>'+
-				'<div class="history-home-text2"><i class="fa fa-briefcase"></i>  Economy<span class="economyadlet">1 <i class="fa fa-male"></i> </span> </div>'+
-			   '</div>';
+  //MohanApp.formStoreData('myflightdata',{'from':$$('#flight_from').val(),'from_iata':$$('#flight_locationId').val(),'to':$$('#flight_to').val(),'to_iata':$$('#flight_to_locationId').val(),'adults': adults,'childs': childs,'infants':infants,'departDate':departDate,'returnDate':returnDate,'classtype':result});
+
+
+var FlightStoredData =MohanApp.formGetData('myflightdata');
+
+if( (new Date(FlightStoredData.departDate) >= new Date()) && (FlightStoredData.departDate!='') || (FlightStoredData.departDate!='undefined') ){	
+ var from_dest =FlightStoredData.from_dest;
+ var to_dest =FlightStoredData.to_dest;
+ var from_iata =FlightStoredData.from_iata;
+ var to_iata =FlightStoredData.to_iata;
+ var departDate =FlightStoredData.departDate;
+ var returnDate =FlightStoredData.returnDate;
+ var adults =FlightStoredData.adults;
+ var childs =FlightStoredData.childs;
+ var infants =FlightStoredData.infants;
+}
+else{
+var from_dest ='Delhi,India';
+var to_dest ='Goa, India';
+var from_iata ='DEL';
+var to_iata ='GOI';	
+var departDate =checkIn;
+var returnDate ='';
+var adults =1;
+var childs =0;
+var infants =0;  	
+}
+
+var flightLinkParam =FlightUrl+'/c'+from_iata+'-c'+to_iata+'-'+departDate;
+if(returnDate!=''){
+flightLinkParam+=':c'+to_iata+'-c'+from_iata+'-'+returnDate;	
+}
+flightLinkParam+='/'+FlightStoredData.classtype+'/'+adults+'a:'+childs+'c:'+infants+'i?sort=price&order=asc';
+
+var departDateArr =departDate.split('-');
+var fcheckin_date =parseInt(departDateArr[2]);
+var fcheckin_month =parseInt(departDateArr[1]);
+var fcheckin_year =departDateArr[0];
+
+if(returnDate!=''){
+var returnDateArr =returnDate.split('-');
+var fcheckout_date =parseInt(returnDateArr[2]);
+var fcheckout_month =parseInt(returnDateArr[1]);
+var fcheckout_year =returnDateArr[0];
+}  
+  
+var fstartDate_txt = fcheckin_date+' '+monthNames[fcheckin_month]+' '+fcheckin_year;
+var fendDate_txt = fcheckout_date+' '+monthNames[fcheckout_month]+' '+fcheckout_year; 
+
+  
+var htmlFlight ='<div class="history-home-page-main-left">';
+		htmlFlight+='<img src="img/flights1.png">';
+	htmlFlight+='</div>';
+	htmlFlight+='<div class="history-home-page-main-right">';
+		htmlFlight+='<div class="history-recents">';
+			htmlFlight+='<div class="history-recents-left">';
+			htmlFlight+='<a href="'+flightLinkParam+'" class="link external"><div class="deltopatfri">';
+				htmlFlight+='<div class="deltopatfri1">';
+					htmlFlight+='<span>'+from_iata+'</span> <span><i class="fa fa-arrow-right"></i></span> <span>'+to_iata+'</span>';
+					  if(returnDate!=''){
+						htmlFlight+='<span>'+to_iata+'</span> <span><i class="fa fa-arrow-right"></i></span> <span>'+from_iata+'</span>';	
+					   }
+				     htmlFlight+='</div>';
+					htmlFlight+='<div class="deltopatfri2">';
+						htmlFlight+='<span>'+fstartDate_txt+'</span>';
+						 if(returnDate!=''){
+						  htmlFlight+='<span>'+fendDate_txt+'</span>';
+						  }
+								
+						htmlFlight+='</div>';
+					htmlFlight+='</div></a>';
+					htmlFlight+='</div>';
+					htmlFlight+='</div>';
+				htmlFlight+='<div class="history-home-text2"><i class="fa fa-briefcase"></i>  Economy<span class="economyadlet">1 <i class="fa fa-male"></i> </span> </div>';
+			   htmlFlight+='</div>';
 $$('#storeFlightLists').html(htmlFlight);
 
 }).trigger();
 
 /*=== Flight Modules ====*/ 
-MohanApp.onPageInit('index', function (page) {  alert('');
+MohanApp.onPageInit('index', function (page) { 
 	//=== Set default date ===/
 	var strDate =new Date();
 	var enrDate =new Date();
@@ -881,7 +1015,7 @@ MohanApp.onPageInit('index', function (page) {  alert('');
 	 }
   });
   
-  $$('.findFlightResults').on('click', function (e) {
+  $$('.findFlightResults').on('click', function (e) { 
    var result =$$('input[name=result]:checked').val();	 
    var trip_class =0;
    if(result=='Business'){ trip_class=1;  }
@@ -897,7 +1031,8 @@ MohanApp.onPageInit('index', function (page) {  alert('');
    if(one_way=='false'){ 
     var returnDate =endDateArr[2]+'-'+endDateArr[0]+'-'+endDateArr[1];
    }else{ 
-	var returnDate ='oneway';   
+	 //var returnDate ='oneway'; 
+    var returnDate =''; 	 
    }
    
    var adults =$$('#adults').val();
@@ -907,12 +1042,21 @@ MohanApp.onPageInit('index', function (page) {  alert('');
    
    var ct_guests =passenger+'passenger';
    var Flights_Return_direct ='enable';
-
-   var url =FlightUrl+'/search/'+$$('#flight_locationId').val()+'/'+$$('#flight_to_locationId').val()+'/'+departDate+'/'+returnDate+'/'+result+'/'+$$('#adults').val()+'/'+$$('#childs').val();
    
+   var flightLocationWithdate ='c'+$$('#flight_locationId').val()+'-c'+$$('#flight_to_locationId').val()+'-'+departDate;
+   if(returnDate!=''){
+	 flightLocationWithdate+=':c'+$$('#flight_to_locationId').val()+'-c'+$$('#flight_locationId').val()+'-'+returnDate;   
+   }
+   var flightMember =adults+'a:'+childs+'c:'+infants+'i'; 
+  
+   /*var url =FlightUrl+'/search/'+$$('#flight_locationId').val()+'/'+$$('#flight_to_locationId').val()+'/'+departDate+'/'+returnDate+'/'+result+'/'+$$('#adults').val()+'/'+$$('#childs').val();*/
+   
+   var url =FlightUrl+'/'+flightLocationWithdate+'/'+result+'/'+flightMember+'?sort=price&order=asc';
+   alert(url);
    window.location.href=url;
    
   })
+  
 });
 
 
