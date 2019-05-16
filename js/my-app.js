@@ -150,11 +150,9 @@ itemTemplate:'<li><label class="label-radio item-content"><input type="radio" na
 source: function (autocomplete, query, render) {
    var data = [
    {"id": "1768","n":"New Delhi, India","lname": "New Delhi","lcode":"DEL"},
-   {"id": "1972","n":"Dubai, United Arab Emirates","lname": "Dubai" ,"lcode":"DXB"},
    {"id": "934","n":"Mumbai, India","lname": "Mumbai","lcode":"BOM"},
    {"id": "2636","n":"Goa, India","lname": "Goa","lcode":"GOI"},
-   {"id": "6667","n":"Singapore, Singapore","lname": "Singapore","lcode":"SIN"},
-   {"id": "4003","n":"Las Vegas","lname": "Las Vegas, NV, United States","lcode":"LAS"}
+   {"id": "6667","n":"Singapore, Singapore","lname": "Singapore","lcode":"SIN"}
 	
    ]; 
 	
