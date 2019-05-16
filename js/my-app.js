@@ -420,7 +420,7 @@ $$('.findHotelResults').on('click', function(e){
   
    MohanApp.formStoreData('myhoteldata',{'destination':$$('#destination').val(),'region_id':$$('#region_id').val(),'rooms': number_of_rooms,'total_guest': TotalGuest,'room_wise_guest':room_wise_guest,'checkIn':checkIn,'checkOut':checkOut});
   
-  var url = HotelUrl+'/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+number_of_rooms+'/'+TotalGuest+'?guests='+room_wise_guest+'&sort=popularity&order=desc';
+  var url = HotelUrl+'/'+$$('#region_id').val()+'/'+checkIn+'/'+checkOut+'/'+number_of_rooms+'/'+TotalGuest+'?ts_code=f0e26&guests='+room_wise_guest+'&sort=popularity&order=desc';
   
   window.location.href=url;
  } 
@@ -657,7 +657,7 @@ var autocompleteDropdownAjax = MohanApp.autocomplete({
 	 flightLocationWithdate+=':c'+$$('#flight_to_locationId').val()+'-c'+$$('#flight_locationId').val()+'-'+returnDate;   
    }
    var flightMember =adults+'a:'+childs+'c:'+infants+'i'; 
-   var url =FlightUrl+'/'+flightLocationWithdate+'/'+result+'/'+flightMember+'?sort=price&order=asc';
+   var url =FlightUrl+'/'+flightLocationWithdate+'/'+result+'/'+flightMember+'?ts_code=f0e26&sort=price&order=asc';
    window.location.href=url;
    
   });
@@ -1049,7 +1049,7 @@ MohanApp.onPageInit('index', function (page) {
   
    /*var url =FlightUrl+'/search/'+$$('#flight_locationId').val()+'/'+$$('#flight_to_locationId').val()+'/'+departDate+'/'+returnDate+'/'+result+'/'+$$('#adults').val()+'/'+$$('#childs').val();*/
    
-   var url =FlightUrl+'/'+flightLocationWithdate+'/'+result+'/'+flightMember+'?sort=price&order=asc';
+   var url =FlightUrl+'/'+flightLocationWithdate+'/'+result+'/'+flightMember+'?ts_code=f0e26&sort=price&order=asc';
    alert(url);
    window.location.href=url;
    
